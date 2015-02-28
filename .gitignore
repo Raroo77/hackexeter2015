@@ -1,5 +1,4 @@
 
-*.class
 # Package Files #
 *.jar
 *.war
@@ -11,3 +10,7 @@ hs_err_pid*
 .idea/
 *.iml
 /out
+
+#Config and Log
+.config
+.log
