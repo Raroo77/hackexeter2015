@@ -90,7 +90,7 @@ public class Game {
         mLog.d("Configuration loaded successfully");
         try {
             Display.setTitle("Untitled Game");
-            setDisplayMode(800, 600, false);
+            setDisplayMode(mConfig.mWidth, mConfig.mHeight, mConfig.fullscreen);
             Display.create();
             Mouse.create();
             Keyboard.create();
