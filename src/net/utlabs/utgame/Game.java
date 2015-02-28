@@ -1,5 +1,6 @@
 package net.utlabs.utgame;
 
+import com.google.gson.annotations.SerializedName;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -7,6 +8,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import java.io.File;
+import java.lang.reflect.Field;
 
 /**
  * Class that houses the main loop and other central game structures
@@ -31,6 +33,14 @@ public class Game {
      * The instance of the Game started in the main method.
      */
     private static Game mGame;
+    /**
+     * Log for the Game object, located at FL_LOG
+     */
+    public Log mLog;
+    /**
+     * Config for the Game object, located at FL_CONFIG
+     */
+    public Config mConfig;
 
     public static void main(String[] args) {
         System.setProperty("org.lwjgl.librarypath", new File(DIR, "native").getAbsolutePath());
@@ -66,15 +76,6 @@ public class Game {
     }
 
     /**
-     * Log for the Game object, located at FL_LOG
-     */
-    public Log mLog;
-    /**
-     * Config for the Game object, located at FL_CONFIG
-     */
-    public Config mConfig;
-
-    /**
      * Start-up operations for the Game (Display creation, Keyboard and Mouse, etc.).
      */
     private void start() {
@@ -83,6 +84,10 @@ public class Game {
         try {
             mConfig = Config.loadConfig(FL_CONFIG);
             Config.saveConfig(mConfig, FL_CONFIG);
+            for (Field f : Config.class.getFields()) {
+                mLog.d(f.getAnnotation(SerializedName.class).value() + ": " + f.get(mConfig));
+            }
+
         } catch (Exception e) {
             mLog.e(e);
             System.exit(0);
