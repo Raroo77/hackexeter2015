@@ -33,14 +33,6 @@ public class Game {
      * The instance of the Game started in the main method.
      */
     private static Game mGame;
-    /**
-     * Log for the Game object, located at FL_LOG
-     */
-    public Log mLog;
-    /**
-     * Config for the Game object, located at FL_CONFIG
-     */
-    public Config mConfig;
 
     public static void main(String[] args) {
         System.setProperty("org.lwjgl.librarypath", new File(DIR, "native").getAbsolutePath());
@@ -74,6 +66,14 @@ public class Game {
                 }
         throw new LWJGLException(String.format("Unable to set display mode %dx%d [%b]", width, height, fullscreen));
     }
+    /**
+     * Log for the Game object, located at FL_LOG
+     */
+    public Log mLog;
+    /**
+     * Config for the Game object, located at FL_CONFIG
+     */
+    public Config mConfig;
 
     /**
      * Start-up operations for the Game (Display creation, Keyboard and Mouse, etc.).
@@ -84,9 +84,8 @@ public class Game {
         try {
             mConfig = Config.loadConfig(FL_CONFIG);
             Config.saveConfig(mConfig, FL_CONFIG);
-            for (Field f : Config.class.getFields()) {
+            for (Field f : Config.class.getFields())
                 mLog.d(f.getAnnotation(SerializedName.class).value() + ": " + f.get(mConfig));
-            }
 
         } catch (Exception e) {
             mLog.e(e);
@@ -95,7 +94,7 @@ public class Game {
         mLog.d("Configuration loaded successfully");
         try {
             Display.setTitle("Untitled Game");
-            setDisplayMode(mConfig.mWidth, mConfig.mHeight, mConfig.fullscreen);
+            setDisplayMode(mConfig.mWidth, mConfig.mHeight, mConfig.mFullscreen);
             Display.create();
             Mouse.create();
             Keyboard.create();
@@ -107,5 +106,9 @@ public class Game {
         while (!Display.isCloseRequested()) {
             Display.update();
         }
+    }
+
+    private void gameLoop() {
+
     }
 }

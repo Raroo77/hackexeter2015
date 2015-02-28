@@ -72,7 +72,13 @@ public class Config {
      */
     @Expose
     @SerializedName("Fullscreen")
-    public boolean fullscreen;
+    public boolean mFullscreen;
+    /**
+     * Maximum frames per second.
+     */
+    @Expose
+    @SerializedName("FPS Cap")
+    public int mFPS;
 
     /**
      * Constructor assigns default values to fields.
@@ -80,6 +86,7 @@ public class Config {
     public Config() {
         mWidth = 800;
         mHeight = 600;
-        fullscreen = false;
+        mFullscreen = false;
+        mFPS = 60;
     }
 }
