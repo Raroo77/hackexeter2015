@@ -11,22 +11,21 @@ public abstract class Tile {
 
 
     /**
-     * Assigns tiles integer values so we don't have to initialize like a thousand of them 
-     */
-    public static final Tile[] TILES = new Tile[] {
-            new TileWall(0),
-            new TileHazard(1), 
-            new TileTurret(2), 
-            new TileStart(3), 
-            new TileEnd(4), 
-            new TileSwitch(5), 
-            new TileGem(6)
-    };
-
-    /**
-     * ID of the tile 
+     * ID of the tile
      */
     public final int mId;
+    /**
+     * Assigns tiles integer values so we don't have to initialize like a thousand of them
+     */
+    public Tile[] tiles = new Tile[]{
+            new TileWall(0),
+            new TileHazard(1),
+            new TileTurret(2),
+            new TileStart(3),
+            new TileEnd(4),
+            new TileSwitch(5),
+            new TileGem(6)
+    };
 
     /**
      * Constructs a Tile*
@@ -43,7 +42,7 @@ public abstract class Tile {
      * @param y: y coordinate
      * @param room: The room the tile is in
      */
-    public abstract void update(int meta, int x, int y, Room room, Player player);
+    public abstract void update(int meta, int x, int y, Room room, Player player, int delta);
 
     /**
      * Draws
@@ -52,5 +51,5 @@ public abstract class Tile {
      * @param y: y coordinate
      * @param room: The room the tile is in
      */
-    public abstract void draw(int meta, int x, int y, Room room, Player player);
+    public abstract void draw(int meta, int x, int y, Room room, Player player, int delta);
 }
