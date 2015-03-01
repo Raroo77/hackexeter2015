@@ -98,13 +98,13 @@ public class Player {
     public void update(int delta) {
         if(this.isDead()){
             try {
-                mGame.mRoom.start();
+                //mGame.mRoom.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
             mLife--;
         }
-        mGame.mRoom.mField[(int)mPos.mX][(int)mPos.mY].multiply(1/mMass,mForce);
+        //mGame.mRoom.mField[(int)mPos.mX][(int)mPos.mY].multiply(1/mMass,mForce);
         Vector accel = new Vector(); //Player's total acceleration
         mMove.add(mForce, accel);
         accel.multiply(0.7f, accel);
