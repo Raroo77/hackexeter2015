@@ -18,6 +18,23 @@ import java.util.Map;
 public class Room {
     public static final File DIR_MAP=new File(Game.DIR, "map");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    /**
+     * a method to map the JSONG data to a Metadata object
+     * @param src The file to be loaded from
+     * @return
+     * @throws Exception
+     */
+    public static Metadata loadMetadata(File src) throws Exception {
+        final Metadata meta;
+        try (FileReader reader = new FileReader(src)) {
+            meta = GSON.fromJson(reader, Metadata.class);
+        } catch (Exception e) {
+            throw new Exception("Unable to read map " + src.getAbsolutePath(), e);
+        }
+        return meta;
+    }
+
     /**
      * Game that the room exists in
      */
@@ -26,10 +43,12 @@ public class Room {
      * A vector field to compute Player movement
      */
     public Vector[][] mField;
+
     /**
      * An long array functioning as a wrapper to store block data and metadata
      */
     public long[][] mMap;
+
     /**
      * A string to store the name of the loaded map image
      */

@@ -95,8 +95,7 @@ public class Player {
             return true;
         return false;
     }
-
-    public void update(int delta, int K) {
+    public void update(int delta) {
         if(this.isDead()){
             try {
                 //mGame.mRoom.start();
