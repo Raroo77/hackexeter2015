@@ -1,14 +1,13 @@
 package net.utlabs.utgame;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Map;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.utlabs.utgame.tiles.Tile;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.Map;
 
 /**
  * Created by raroo on 2/28/15.
@@ -77,12 +76,22 @@ public class Room {
                 mMap[i][j]=getMapComponent(met.hashMap.get(Integer.toHexString(im.getRGB(i,j))));
     }
 
+    public void update(int delta, Player player) {
+        iter(delta, player, false);
+    }
+
+    public void render(int delta, Player player) {
+        iter(delta, player, false);
+    }
+
     /**
      * Decapsulates the long wrapper
+     *
      * @param l
+     *
      * @return
      */
-    public int getMapComponent(long l){
+    public int getMapComponent(long l) {
         return (int) l >> 32;
     }
 
@@ -93,6 +102,19 @@ public class Room {
      */
     public int getMapMetadata(long l){
         return (int) l;
+    }
+
+    private void iter(int delta, Player player, boolean draw) {
+        for (int x = 0; x < mMap.length; x++)
+            for (int y = 0; y < mMap[x].length; x++) {
+                long l = mMap[x][y];
+                int id = getMapComponent(l);
+                int meta = getMapMetadata(l);
+                if (draw)
+                    Tile.TILES[id].draw(meta, x, y, this, player);
+                else
+                    Tile.TILES[id].update(meta, x, y, this, player);
+            }
     }
 
     /**

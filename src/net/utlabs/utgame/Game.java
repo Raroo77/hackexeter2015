@@ -1,6 +1,7 @@
 package net.utlabs.utgame;
 
 import com.google.gson.annotations.SerializedName;
+import net.utlabs.utgame.ui.Ui;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -49,7 +50,7 @@ public class Game {
     }
 
     /**
-     * @return The instance of Game set in motion by the main method, mGame
+     * @return The instance of Game set in motion by the main method, mGame.
      */
     public static Game getInstance() {
         return mGame;
@@ -85,20 +86,20 @@ public class Game {
         JOptionPane.showMessageDialog(null, "An error occurred, please read the log file for more information");
     }
     /**
-     * Log for the Game object, located at FL_LOG
+     * Log for the Game object, located at FL_LOG.
      */
     public Log mLog;
     /**
-     * Config for the Game object, located at FL_CONFIG
+     * Config for the Game object, located at FL_CONFIG.
      */
     public Config mConfig;
-    /**
-     * The Current room
-     */
-    public Room mRoom;
 
     /**
-     * Shuts down the Game in a nice manner
+     * The current Ui menu
+     */
+    public Ui mUi;
+    /**
+     * Shuts down the Game in a nice manner.
      */
     public void shutdown() {
         mLog.i("Shutting down");
@@ -125,7 +126,6 @@ public class Game {
         Display.setTitle("Untitled Game");
         setDisplayMode(mConfig.mWidth, mConfig.mHeight, mConfig.mFullscreen);
         Display.create();
-        Mouse.create();
         Keyboard.create();
         mLog.d("Loading shader programs");
         Shaders.init();
@@ -146,6 +146,7 @@ public class Game {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         mLog.d("Entering game loop");
+        mUi = new UiMain();
         gameLoop();
     }
 
@@ -157,6 +158,7 @@ public class Game {
             long updateStart = System.currentTimeMillis();
             int delta = (int) (updateStart - lastUpdate);
             Display.update();
+            Keyboard.poll();
             update(delta);
             render(delta);
             lastUpdate = System.currentTimeMillis();
@@ -165,18 +167,16 @@ public class Game {
     }
 
     private void update(int delta) throws Exception {
+        while (Keyboard.next())
+            mUi.keyEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(), Keyboard.getEventKeyState(), Keyboard.getEventNanoseconds());
 
     }
 
     private void render(int delta) throws Exception {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         glMatrixMode(GL_MODELVIEW);
+        mUi.render(delta);
         glLoadIdentity();
-        //glColor3f(1, 1, 1);
-        glBegin(GL_TRIANGLES);
-        glVertex2i(100, 100);
-        glVertex2i(200, 200);
-        glVertex2i(100, 200);
         glEnd();
     }
 }

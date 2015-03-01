@@ -13,7 +13,7 @@ public abstract class Tile {
     /**
      * Assigns tiles integer values so we don't have to initialize like a thousand of them 
      */
-    public Tile[] tiles = new Tile[] {
+    public static final Tile[] TILES = new Tile[] {
             new TileWall(0),
             new TileHazard(1), 
             new TileTurret(2), 
