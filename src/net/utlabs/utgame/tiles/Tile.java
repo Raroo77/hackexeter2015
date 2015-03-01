@@ -54,5 +54,5 @@ public abstract class Tile {
      * @param y:    y coordinate
      * @param room: The room the tile is in
      */
-    public abstract void draw(int meta, int x, int y, Room room, Player player, int delta);
+    public abstract void render(int meta, int x, int y, Room room, Player player, int delta);
 }

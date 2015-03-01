@@ -110,7 +110,6 @@ public class Player {
             }
             mLife--;
         }
-        inputHandler(K);
         mMcrg -= delta;
         //mGame.mRoom.mField[(int)mPos.mX][(int)mPos.mY].multiply(mCrg/mMass,mForce);
         Vector accel = new Vector(); //Player's total acceleration

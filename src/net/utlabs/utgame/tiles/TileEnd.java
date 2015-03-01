@@ -47,7 +47,7 @@ public class TileEnd extends Tile {
      * @param room: The room the tile is in
      */
     @Override
-    public void draw(int meta, int x, int y, Room room, Player player, int delta) {
+    public void render(int meta, int x, int y, Room room, Player player, int delta) {
 
     }
 }

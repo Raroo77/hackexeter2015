@@ -37,24 +37,6 @@ public class Room {
     }
 
     /**
-     * a method to map the JSONG data to a Metadata object
-     *
-     * @param src The file to be loaded from
-     *
-     * @return
-     * @throws Exception
-     */
-    public static Metadata loadMetadata(File src) throws Exception {
-        final Metadata meta;
-        try (FileReader reader = new FileReader(src)) {
-            meta = GSON.fromJson(reader, Metadata.class);
-        } catch (Exception e) {
-            throw new Exception("Unable to read map " + src.getAbsolutePath(), e);
-        }
-        return meta;
-    }
-
-    /**
      * Game that the room exists in
      */
     public Game mGame;
@@ -134,7 +116,7 @@ public class Room {
                 int id = getMapComponent(l);
                 int meta = getMapMetadata(l);
                 if (draw)
-                    Tile.TILES[id].draw(meta, x, y, this, player, delta);
+                    Tile.TILES[id].render(meta, x, y, this, player, delta);
                 else
                     Tile.TILES[id].update(meta, x, y, this, player, delta);
             }
