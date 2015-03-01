@@ -111,9 +111,9 @@ public class Room {
                 int id = getMapComponent(l);
                 int meta = getMapMetadata(l);
                 if (draw)
-                    Tile.TILES[id].draw(meta, x, y, this, player);
+                    Tile.TILES[id].draw(meta, x, y, this, player, delta);
                 else
-                    Tile.TILES[id].update(meta, x, y, this, player);
+                    Tile.TILES[id].update(meta, x, y, this, player, delta);
             }
     }
 

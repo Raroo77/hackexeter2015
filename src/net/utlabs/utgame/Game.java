@@ -24,6 +24,10 @@ public class Game {
      */
     public static final File DIR = new File("").getAbsoluteFile();
     /**
+     * Directory of the images.
+     */
+    public static final File DIR_IMG = new File(DIR, "img");
+    /**
      * File location of the Config file, generally "DIR/.config".
      */
     public static final File FL_CONFIG = new File(Game.DIR, ".config");
@@ -127,9 +131,6 @@ public class Game {
         setDisplayMode(mConfig.mWidth, mConfig.mHeight, mConfig.mFullscreen);
         Display.create();
         Keyboard.create();
-        mLog.d("Loading shader programs");
-        Shaders.init();
-        GL20.glUseProgram(Shaders.mShaderProgram);
         mLog.d("Setting up OpenGL");
         glViewport(0, 0, Display.getWidth(), Display.getHeight());
         glMatrixMode(GL_PROJECTION);
@@ -145,14 +146,25 @@ public class Game {
         glDepthFunc(GL_LESS);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_TEXTURE_2D);
+        glDisable(GL_LIGHTING);
+        mLog.d("Loading shader programs");
+        Shaders.init();
+        GL20.glUseProgram(Shaders.mShaderProgram);
+        mLog.d("Loading textures");
+        File[] imgs = DIR_IMG.listFiles();
+        if (imgs == null)
+            throw new Exception("Unable to load images");
+        for (File f : imgs) {
+            mLog.d("Loading " + f);
+            Texture.loadTexture(f);
+        }
         mLog.d("Entering game loop");
-        mUi = new UiMain();
+        //mUi = new UiMain();
         gameLoop();
     }
 
     private void gameLoop() throws Exception {
-        //TODO Complete this
-        final long updateTime = 1000L / mConfig.mFPS;
         long lastUpdate = System.currentTimeMillis();
         while (!Display.isCloseRequested()) {
             long updateStart = System.currentTimeMillis();
@@ -168,15 +180,14 @@ public class Game {
 
     private void update(int delta) throws Exception {
         while (Keyboard.next())
-            mUi.keyEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(), Keyboard.getEventKeyState(), Keyboard.getEventNanoseconds());
+            ;//mUi.keyEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(), Keyboard.getEventKeyState(), Keyboard.getEventNanoseconds());
 
     }
 
     private void render(int delta) throws Exception {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         glMatrixMode(GL_MODELVIEW);
-        mUi.render(delta);
+        //mUi.render(delta);
         glLoadIdentity();
-        glEnd();
     }
 }

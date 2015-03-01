@@ -9,15 +9,10 @@ import net.utlabs.utgame.Room;
  */
 public abstract class Tile {
 
-
-    /**
-     * ID of the tile
-     */
-    public final int mId;
     /**
      * Assigns tiles integer values so we don't have to initialize like a thousand of them
      */
-    public Tile[] tiles = new Tile[]{
+    public static Tile[] TILES = new Tile[] {
             new TileWall(0),
             new TileHazard(1),
             new TileTurret(2),
@@ -26,6 +21,11 @@ public abstract class Tile {
             new TileSwitch(5),
             new TileGem(6)
     };
+
+    /**
+     * ID of the tile
+     */
+    public final int mId;
 
     /**
      * Constructs a Tile*
