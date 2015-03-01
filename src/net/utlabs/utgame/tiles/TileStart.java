@@ -25,7 +25,7 @@ public class TileStart extends Tile {
      * @param room: The room the tile is in
      */
     @Override
-    public void update(int meta, int x, int y, Room room, Player player) {
+    public void update(int meta, int x, int y, Room room, Player player, int delta) {
         
     }
 
@@ -37,7 +37,7 @@ public class TileStart extends Tile {
      * @param room: The room the tile is in
      */
     @Override
-    public void draw(int meta, int x, int y, Room room, Player player) {
+    public void draw(int meta, int x, int y, Room room, Player player, int delta) {
 
     }
 }
