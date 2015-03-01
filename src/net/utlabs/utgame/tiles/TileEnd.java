@@ -16,17 +16,19 @@ public class TileEnd extends Tile {
 
     /**
      * Constructs an End Tile
+     *
      * @param id: ID number for wall
      */
-    public TileEnd(int id){
+    public TileEnd(int id) {
         super(id);
     }
 
     /**
      * Updates
+     *
      * @param meta: Metadata for the tile
-     * @param x: x coordinate
-     * @param y: y coordinate
+     * @param x:    x coordinate
+     * @param y:    y coordinate
      * @param room: The room the tile is in
      */
     @Override
@@ -38,9 +40,10 @@ public class TileEnd extends Tile {
 
     /**
      * Draws based on openness
+     *
      * @param meta: metadata for the tile
-     * @param x: x coordinate
-     * @param y: y coordinate
+     * @param x:    x coordinate
+     * @param y:    y coordinate
      * @param room: The room the tile is in
      */
     @Override

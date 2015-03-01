@@ -18,6 +18,7 @@ public class UiMain extends Ui {
      */
     public int mCurrentButton = 3;
     double d;
+
     /**
      * Main Menu has no parent UI
      */
@@ -87,5 +88,4 @@ public class UiMain extends Ui {
                 mGame.changeMenu(new UiGame(this));
         }
     }
-
 }

@@ -11,13 +11,13 @@ public abstract class Ui {
      */
     public final Ui mParent;
     /**
-     * List of components
-     */
-    protected final ArrayList<Component> mComponents;
-    /**
      * The game lol
      */
     public Game mGame;
+    /**
+     * List of components
+     */
+    protected final ArrayList<Component> mComponents;
 
     /**
      * Constructs UI
@@ -29,9 +29,9 @@ public abstract class Ui {
         mComponents = new ArrayList<>();
     }
 
-
     /**
-     * Initializes* 
+     * Initializes*
+     *
      * @param game: The game lol
      */
     public void init(Game game) {
@@ -40,7 +40,8 @@ public abstract class Ui {
     }
 
     /**
-     * Updates 
+     * Updates
+     *
      * @param delta: Timescale
      */
     public void update(int delta) {
@@ -49,7 +50,8 @@ public abstract class Ui {
     }
 
     /**
-     * Renders 
+     * Renders
+     *
      * @param delta: Timescale
      */
     public void render(int delta) {
@@ -58,10 +60,11 @@ public abstract class Ui {
     }
 
     /**
-     * Keylistener 
-     * @param key:The key pressed
-     * @param ch: The character of the key pressed
-     * @param down: Is is pressed
+     * Keylistener
+     *
+     * @param key:The   key pressed
+     * @param ch:       The character of the key pressed
+     * @param down:     Is is pressed
      * @param duration: How long is it pressed
      */
     public void keyEvent(int key, char ch, boolean down, long duration) {
@@ -77,6 +80,5 @@ public abstract class Ui {
      */
     public void childFired(int id) {
         System.out.println(id);
-
     }
 }

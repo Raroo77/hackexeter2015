@@ -5,7 +5,7 @@ import net.utlabs.utgame.Room;
 
 /**
  * Created by mas.dicicco on 2/28/2015
- * Abstract representation of all tiles which can exist in a room 
+ * Abstract representation of all tiles which can exist in a room
  */
 public abstract class Tile {
 
@@ -29,26 +29,29 @@ public abstract class Tile {
 
     /**
      * Constructs a Tile*
+     *
      * @param id: ID number for a hazard
      */
-    public Tile(int id){
-        mId=id;        
+    public Tile(int id) {
+        mId = id;
     }
-    
+
     /**
      * Updates
+     *
      * @param meta: Metadata for the tile
-     * @param x: x coordinate
-     * @param y: y coordinate
+     * @param x:    x coordinate
+     * @param y:    y coordinate
      * @param room: The room the tile is in
      */
     public abstract void update(int meta, int x, int y, Room room, Player player, int delta);
 
     /**
      * Draws
+     *
      * @param meta: metadata for the tile
-     * @param x: x coordinate
-     * @param y: y coordinate
+     * @param x:    x coordinate
+     * @param y:    y coordinate
      * @param room: The room the tile is in
      */
     public abstract void draw(int meta, int x, int y, Room room, Player player, int delta);

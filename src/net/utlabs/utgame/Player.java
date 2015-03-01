@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
  * Class representing an instance of the Player
  */
 public class Player {
+
     /**
      * Game that Player exists within
      */
@@ -46,13 +47,14 @@ public class Player {
 
     /**
      * Constructs a Player
+     *
      * @param game the instance of the Game the Player exists in
      */
-    public Player(Game game){
+    public Player(Game game) {
         mGame = game;
         mMove = new Vector(0, 0);
         mLife = Integer.MAX_VALUE; //TODO change this shit.
-        mCrg =  -1;
+        mCrg = -1;
         mMcrg = 10000;
         mMass = 5;
         mScore = 0;
@@ -60,12 +62,12 @@ public class Player {
     }
 
     /**
-     *
      * @param K
+     *
      * @return
      */
-    public boolean inputHandler(int K){
-        switch(K) {
+    public boolean inputHandler(int K) {
+        switch (K) {
             case Keyboard.KEY_RIGHT:
                 mMove.mX += 1;
                 return true;
@@ -85,18 +87,21 @@ public class Player {
                 return false;
         }
     }
-    public boolean isDead(){
-        if(mMcrg == 0)
+
+    public boolean isDead() {
+        if (mMcrg == 0)
             return true;
         return false;
     }
-    public boolean isReallyDead(){
-        if (mLife==0)
+
+    public boolean isReallyDead() {
+        if (mLife == 0)
             return true;
         return false;
     }
+
     public void update(int delta) {
-        if(this.isDead()){
+        if (this.isDead()) {
             try {
                 //mGame.mRoom.start();
                 mScore = 0;
@@ -111,11 +116,10 @@ public class Player {
         Vector accel = new Vector(); //Player's total acceleration
         mMove.add(mForce, accel);
         accel.multiply(0.7f, accel);
-        mPos.add(accel.multiply(delta, accel),mPos);
+        mPos.add(accel.multiply(delta, accel), mPos);
     }
 
     public void render(int delta) {
 
     }
-
 }

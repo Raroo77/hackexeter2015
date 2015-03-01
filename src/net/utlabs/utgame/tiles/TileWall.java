@@ -16,33 +16,36 @@ public class TileWall extends Tile {
 
     /**
      * Constructs a wall
+     *
      * @param id: ID number for wall
      */
-    public TileWall(int id){
+    public TileWall(int id) {
         super(id);
     }
 
     /**
-     * Does nothing 
+     * Does nothing
+     *
      * @param meta: Metadata for the tile
-     * @param x: x coordinate
-     * @param y: y coordinate
+     * @param x:    x coordinate
+     * @param y:    y coordinate
      * @param room: The room the tile is in
      */
     @Override
     public void update(int meta, int x, int y, Room room, Player thePlayer) {
-        
+
     }
 
     /**
      * Draws and colors based on charge
+     *
      * @param meta: metadata for the tile
-     * @param x: x coordinate
-     * @param y: y coordinate
+     * @param x:    x coordinate
+     * @param y:    y coordinate
      * @param room: The room the tile is in
      */
     @Override
     public void draw(int meta, int x, int y, Room room, Player player) {
-        
+
     }
 }

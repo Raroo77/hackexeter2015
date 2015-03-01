@@ -6,10 +6,9 @@ import org.lwjgl.opengl.GL11;
 
 /**
  * Created by mas.dicicco on 3/1/2015.
- * Button component for Ui 
+ * Button component for Ui
  */
 public class Button extends Component {
-
 
     /**
      * Currently selected component*
@@ -35,21 +34,21 @@ public class Button extends Component {
         super(parent, id, x, y, width, height);
         mTexture = t;
     }
-    
+
+    @Override
+    public void render(int delta) {
+        if (mSelected) {
+            GL11.glColor3f(0, 1, 0);
+        }
+        else
+            GL11.glColor3f(1, 1, 1);
+        mTexture.drawModalRect(0, 0, mTexture.mWidth, mTexture.mHeight, mX, mY, 0, mTexture.mWidth, mTexture.mHeight);
+    }
+
     @Override
     public boolean keyEvent(int key, char ch, boolean down, long duration) {
         if (key == Keyboard.KEY_SPACE)
             fire();
         return false;
     }
-
-    @Override
-    public void render(int delta) {
-        if (mSelected) {
-            GL11.glColor3f(0, 1, 0);
-        } else
-            GL11.glColor3f(1, 1, 1);
-        mTexture.drawModalRect(0, 0, mTexture.mWidth, mTexture.mHeight, mX, mY, 0, mTexture.mWidth, mTexture.mHeight);
-    }
-
 }

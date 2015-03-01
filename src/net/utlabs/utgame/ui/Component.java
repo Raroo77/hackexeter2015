@@ -43,7 +43,8 @@ public class Component {
     }
 
     /**
-     * Update, obviously 
+     * Update, obviously
+     *
      * @param delta: timescale
      */
     public void update(int delta) {
@@ -51,17 +52,20 @@ public class Component {
 
     /**
      * Render
+     *
      * @param delta:timescale
      */
     public void render(int delta) {
     }
 
     /**
-     * Menu Navigation 
-     * @param key:Key Pressed
+     * Menu Navigation
+     *
+     * @param key:Key      Pressed
      * @param ch:Character pressed
-     * @param down:Is pressed
+     * @param down:Is      pressed
      * @param duration:How long is pressed
+     *
      * @return
      */
     public boolean keyEvent(int key, char ch, boolean down, long duration) {
