@@ -6,7 +6,9 @@ import net.utlabs.utgame.tiles.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -16,6 +18,32 @@ import java.util.Map;
 public class Room {
     public static final File DIR_MAP=new File(Game.DIR, "map");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    /**
+     * Game that the room exists in
+     */
+    public Game mGame;
+    /**
+     * A vector field to compute Player movement
+     */
+    public Vector[][] mField;
+    /**
+     * An long array functioning as a wrapper to store block data and metadata
+     */
+    public long[][] mMap;
+    /**
+     * A string to store the name of the loaded map image
+     */
+    public String mMapName;
+
+    /**
+     * Constructs a room
+     * @param game The game that this room exists in
+     * @param mapName The name of the map image that is being loaded
+     */
+    public Room(Game game, String mapName) {
+        mGame = game;
+        mMapName = mapName;
+    }
 
     /**
      * a method to map the JSONG data to a Metadata object
@@ -31,35 +59,6 @@ public class Room {
             throw new Exception("Unable to read map " + src.getAbsolutePath(), e);
         }
         return meta;
-    }
-
-    /**
-     * Game that the room exists in
-     */
-    public Game mGame;
-    /**
-     * A vector field to compute Player movement
-     */
-    public Vector[][] mField;
-
-    /**
-     * An long array functioning as a wrapper to store block data and metadata
-     */
-    public long[][] mMap;
-
-    /**
-     * A string to store the name of the loaded map image
-     */
-    public String mMapName;
-
-    /**
-     * Constructs a room
-     * @param game The game that this room exists in
-     * @param mapName The name of the map image that is being loaded
-     */
-    public Room(Game game, String mapName){
-        mGame=game;
-        mMapName=mapName;
     }
 
     /**

@@ -9,9 +9,7 @@ import net.utlabs.utgame.Room;
  */
 public class TileSwitch extends Tile {
 
-    public TileEnd mAffectedTile;
-
-    public boolean mTriggered = false;
+    public boolean mToggled=false;
     /**
      * Constructs a Switch
      * @param id: ID number
@@ -28,11 +26,8 @@ public class TileSwitch extends Tile {
      * @param room: The room the tile is in
      */
     @Override
-    public void update(int meta, int x, int y, Room room, Player player, int delta) {
-        if (Math.abs(player.mPos.mX - 4 * x) <= 4 && Math.abs(player.mPos.mY - 4 * x) <= 4) {
-            mTriggered = !mTriggered;
-            mAffectedTile.mOpen = !mAffectedTile.mOpen;
-        }
+    public void update(int meta, int x, int y, Room room, Player player) {
+        
     }
 
     /**
@@ -43,7 +38,7 @@ public class TileSwitch extends Tile {
      * @param room: The room the tile is in
      */
     @Override
-    public void draw(int meta, int x, int y, Room room, Player player, int delta) {
+    public void draw(int meta, int x, int y, Room room, Player player) {
 
     }
 }
