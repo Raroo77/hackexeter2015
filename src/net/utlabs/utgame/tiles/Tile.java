@@ -1,5 +1,8 @@
 package net.utlabs.utgame.tiles;
 
+import net.utlabs.utgame.Player;
+import net.utlabs.utgame.Room;
+
 /**
  * Created by mas.dicicco on 2/28/2015
  * Abstract representation of all tiles which can exist in a room 
