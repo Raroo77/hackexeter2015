@@ -75,9 +75,18 @@ public class Room {
             mMeta = loadMetadata(new File(DIR_MAP, mMapName + ".json"));
             mMap = new long[mMeta.mapX][mMeta.mapY];
             for (int i = 0; i < mMap.length; i++)
-                for (int j = 0; j < mMap[0].length; j++)
-                    mMap[i][j] = getMapComponent(Long.valueOf(mMeta.hashMap.get(Integer.toHexString(im.getRGB(i, j))), 16));
+                for (int j = 0; j < mMap[0].length; j++) {
+                    String hex = Integer.toHexString(im.getRGB(i, j));
+                    if (!mMeta.hashMap.containsKey(hex))
+                        mMap[i][j] = -1;
+                    else
+                        mMap[i][j] = getMapComponent(Long.valueOf(mMeta.hashMap.get(hex), 16));
+                }
+
             mField = new Vector[mMap.length * 4][mMap[0].length * 4];
+            for (int i = 0; i < mField.length; i++)
+                for (int j = 0; j < mField[i].length; j++)
+                    mField[i][j] = new Vector();
             for (int i = 0; i < mMap.length; i++)
                 for (int j = 0; j < mMap[0].length; j++)
                     if (getMapComponent(mMap[i][j]) == 0)
@@ -94,6 +103,7 @@ public class Room {
 
     public void update(int delta, Player player) {
         iter(delta, player, false);
+        mField[(int) player.mPos.mX][(int) player.mPos.mY].multiply(player.mCrg / player.mMass, player.mForce);
     }
 
     public void render(int delta, Player player) {
@@ -122,14 +132,15 @@ public class Room {
 
     private void iter(int delta, Player player, boolean draw) {
         for (int x = 0; x < mMap.length; x++)
-            for (int y = 0; y < mMap[x].length; x++) {
+            for (int y = 0; y < mMap[x].length; y++) {
                 long l = mMap[x][y];
                 int id = getMapComponent(l);
                 int meta = getMapMetadata(l);
-                if (draw)
-                    Tile.TILES[id].render(meta, x, y, this, player, delta);
-                else
-                    Tile.TILES[id].update(meta, x, y, this, player, delta);
+                if (id > 0)
+                    if (draw)
+                        Tile.TILES[id].render(meta, x, y, this, player, delta);
+                    else
+                        Tile.TILES[id].update(meta, x, y, this, player, delta);
             }
     }
 

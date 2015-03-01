@@ -45,6 +45,9 @@ public class Player {
      */
     public Vector mPos;
 
+    public final Texture mTextureO;
+    public final Texture mTextureB;
+
     /**
      * Constructs a Player
      *
@@ -59,6 +62,10 @@ public class Player {
         mMass = 5;
         mScore = 0;
         mForce = new Vector();
+        mMove = new Vector();
+        mPos = new Vector();
+        mTextureO = Texture.getTexture("PlayerO.png");
+        mTextureB = Texture.getTexture("PlayerB.png");
     }
 
     /**
@@ -111,7 +118,7 @@ public class Player {
             mLife--;
         }
         mMcrg -= delta;
-        //mGame.mRoom.mField[(int)mPos.mX][(int)mPos.mY].multiply(mCrg/mMass,mForce);
+
         Vector accel = new Vector(); //Player's total acceleration
         mMove.add(mForce, accel);
         accel.multiply(0.7f, accel);
@@ -119,6 +126,11 @@ public class Player {
     }
 
     public void render(int delta) {
-
+        Texture t;
+        if (mCrg > 0)
+            t = mTextureB;
+        else
+            t = mTextureO;
+        t.drawCenteredModalRect(0, 0, t.mWidth, t.mHeight, mPos.mX, mPos.mY, 0, t.mWidth, t.mHeight);
     }
 }

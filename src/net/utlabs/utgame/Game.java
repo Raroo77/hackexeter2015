@@ -169,6 +169,8 @@ public class Game {
             mLog.d("Loading " + f);
             Texture.loadTexture(f);
         }
+        mLog.d("Loading map names");
+        Progress.init();
         mLog.d("Entering game loop");
         changeMenu(new UiMain());
         gameLoop();

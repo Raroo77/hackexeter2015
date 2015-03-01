@@ -8,22 +8,20 @@ import java.util.ArrayList;
  */
 public class Progress {
 
-    final static public String[] TOTAL;
-    public ArrayList<String> completion;
+    private static String[] TOTAL;
 
-    static {
+    public static void init() {
         File file = new File(Game.DIR, "map");
         File[] l = file.listFiles();
-        String[] r = new String[l.length / 2];
-        for (int i = 0; i < l.length; i++)
+        if (l == null)
+            throw new RuntimeException("Unable to load map names");
+        TOTAL = new String[l.length / 2];
+        for (int i = 0; i < TOTAL.length; i++)
             if (l[i].getName().endsWith(".png"))
-                r[i] = l[i].getName().substring(0, l[i].getName().length() - 4);
-        TOTAL = r;
+                TOTAL[i] = l[i].getName().substring(0, l[i].getName().length() - 4);
     }
 
-    public void init() {
-
-    }
+    public ArrayList<String> completion;
 
     public void add(Room r) {
         File f = new File(Room.DIR_MAP, r.mMapName);
