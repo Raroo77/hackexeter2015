@@ -93,7 +93,7 @@ public class Room {
             mField = new Vector[mMap.length * VECTOR_FIELD_RESOLUTION][mMap[0].length * VECTOR_FIELD_RESOLUTION];
             for (int i = 0; i < mField.length; i++)
                 for (int j = 0; j < mField[i].length; j++)
-                    mField[i][j] = new Vector();
+                    mField[i][j] = new Vector(0,0);
             for (int i = 0; i < mMap.length; i++)
                 for (int j = 0; j < mMap[0].length; j++)
                     if (getMapComponent(mMap[i][j]) == 0)
