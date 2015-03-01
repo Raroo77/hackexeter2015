@@ -1,5 +1,6 @@
 package net.utlabs.utgame;
 
+import com.google.gson.annotations.SerializedName;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -7,6 +8,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import java.io.File;
+import java.lang.reflect.Field;
 
 /**
  * Class that houses the main loop and other central game structures
@@ -64,7 +66,6 @@ public class Game {
                 }
         throw new LWJGLException(String.format("Unable to set display mode %dx%d [%b]", width, height, fullscreen));
     }
-
     /**
      * Log for the Game object, located at FL_LOG
      */
@@ -83,6 +84,9 @@ public class Game {
         try {
             mConfig = Config.loadConfig(FL_CONFIG);
             Config.saveConfig(mConfig, FL_CONFIG);
+            for (Field f : Config.class.getFields())
+                mLog.d(f.getAnnotation(SerializedName.class).value() + ": " + f.get(mConfig));
+
         } catch (Exception e) {
             mLog.e(e);
             System.exit(0);
@@ -90,7 +94,7 @@ public class Game {
         mLog.d("Configuration loaded successfully");
         try {
             Display.setTitle("Untitled Game");
-            setDisplayMode(mConfig.mWidth, mConfig.mHeight, mConfig.fullscreen);
+            setDisplayMode(mConfig.mWidth, mConfig.mHeight, mConfig.mFullscreen);
             Display.create();
             Mouse.create();
             Keyboard.create();
@@ -102,5 +106,9 @@ public class Game {
         while (!Display.isCloseRequested()) {
             Display.update();
         }
+    }
+
+    private void gameLoop() {
+
     }
 }
