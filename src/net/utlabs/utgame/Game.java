@@ -92,6 +92,7 @@ public class Game {
         JOptionPane.showMessageDialog(null, "An error occurred, please read the log file for more information");
     }
 
+    public int mWidth, mHeight;
     /**
      * Log for the Game object, located at FL_LOG.
      */
@@ -140,9 +141,9 @@ public class Game {
         Display.create();
         Keyboard.create();
         mLog.d("Setting up OpenGL");
-        glViewport(0, 0, Display.getWidth(), Display.getHeight());
+        glViewport(0, 0, mWidth = Display.getWidth(), mHeight = Display.getHeight());
         glMatrixMode(GL_PROJECTION);
-        glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -100, 100);
+        glOrtho(0, mWidth, 0, mHeight, -100, 100);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glShadeModel(GL_SMOOTH);

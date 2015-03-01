@@ -3,7 +3,6 @@ package net.utlabs.utgame.ui;
 import net.utlabs.utgame.Game;
 import net.utlabs.utgame.Texture;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -38,7 +37,7 @@ public class UiMain extends Ui {
     public void render(int delta) {
         GL11.glColor3f(1, 1, 1);
         GL11.glPushMatrix();
-        GL11.glTranslated(Display.getWidth() / 2, Display.getHeight() * 2 / 3, 0);
+        GL11.glTranslated(mWidth / 2, mHeight * 2 / 3, 0);
         double scale = 0.05F * Math.sin((d += delta) / 1000F) + 1;
         GL11.glScaled(scale, scale, 0);
         GL11.glRotated(5 * Math.cos(d / 500F), 0, 0, 1);
@@ -85,7 +84,7 @@ public class UiMain extends Ui {
                 mGame.shutdown();
                 break;
             case 3:
-                mGame.changeMenu(new UiGame(this));
+                mGame.changeMenu(new UiProgress(this, "Level01"));
         }
     }
 }

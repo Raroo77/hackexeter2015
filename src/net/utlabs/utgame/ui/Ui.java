@@ -14,6 +14,8 @@ public abstract class Ui {
      * The game lol
      */
     public Game mGame;
+
+    public int mWidth, mHeight;
     /**
      * List of components
      */
@@ -36,6 +38,8 @@ public abstract class Ui {
      */
     public void init(Game game) {
         mGame = game;
+        mWidth = mGame.mWidth;
+        mHeight = mGame.mHeight;
         mComponents.clear();
     }
 
