@@ -1,7 +1,6 @@
 package net.utlabs.utgame.ui;
 
 import net.utlabs.utgame.Game;
-import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 
@@ -16,10 +15,6 @@ public abstract class Ui {
      */
     protected final ArrayList<Component> mComponents;
     /**
-     * Currently Selected Button
-     */
-    public int mCurrentButton = 0;
-    /**
      * The game lol
      */
     public Game mGame;
@@ -33,6 +28,7 @@ public abstract class Ui {
         mParent = parent;
         mComponents = new ArrayList<>();
     }
+
 
     /**
      * Initializes* 
@@ -69,19 +65,6 @@ public abstract class Ui {
      * @param duration: How long is it pressed
      */
     public void keyEvent(int key, char ch, boolean down, long duration) {
-        if (!down)
-            return;
-        switch (key) {
-            case Keyboard.KEY_UP:
-                mCurrentButton = (mCurrentButton + 1) % mComponents.size();
-                break;
-            case Keyboard.KEY_DOWN:
-                if (mCurrentButton == 0) {
-                    mCurrentButton = mComponents.size();
-                }
-                mCurrentButton = mCurrentButton - 1;
-
-        }
         for (Component c : mComponents)
             if (c.keyEvent(key, ch, down, duration))
                 return;

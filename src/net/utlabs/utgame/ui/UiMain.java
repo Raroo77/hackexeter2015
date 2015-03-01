@@ -2,6 +2,7 @@ package net.utlabs.utgame.ui;
 
 import net.utlabs.utgame.Game;
 import net.utlabs.utgame.Texture;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
@@ -12,8 +13,11 @@ import org.lwjgl.opengl.GL11;
 public class UiMain extends Ui {
 
     public Texture mSwitchTexture = Texture.getTexture("Switch.png");
+    /**
+     * Currently Selected Button
+     */
+    public int mCurrentButton = 3;
     double d;
-
     /**
      * Main Menu has no parent UI
      */
@@ -43,11 +47,44 @@ public class UiMain extends Ui {
     }
 
     @Override
+    public void keyEvent(int key, char ch, boolean down, long duration) {
+        if (!down)
+            return;
+        int prev = mCurrentButton;
+        int next = 0;
+        switch (key) {
+            case Keyboard.KEY_UP:
+                next = -1;
+                break;
+            case Keyboard.KEY_DOWN:
+                next = 1;
+                break;
+        }
+        if (next != 0) {
+            Button current = (Button) mComponents.get(mCurrentButton);
+            current.mSelected = false;
+            next += prev;
+            if (next < 0)
+                next += mComponents.size();
+            else if (next >= mComponents.size())
+                next -= mComponents.size();
+            mCurrentButton = next;
+            current = (Button) mComponents.get(mCurrentButton);
+            current.mSelected = true;
+        }
+        super.keyEvent(key, ch, down, duration);
+    }
+
+    @Override
     public void childFired(int id) {
+        if (id != mCurrentButton)
+            return;
         switch (id) {
             case 0:
                 mGame.shutdown();
                 break;
+            case 3:
+                mGame.changeMenu(new UiGame(this));
         }
     }
 
