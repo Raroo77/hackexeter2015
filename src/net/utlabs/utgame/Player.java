@@ -18,7 +18,7 @@ public class Player {
     /**
      * Measure of Player's charge (when 0, mLife decrements)
      */
-    public double mMcrg;
+    public int mMcrg;
     /**
      * Player's life count
      */
@@ -53,10 +53,10 @@ public class Player {
         mMove = new Vector(0, 0);
         mLife = Integer.MAX_VALUE; //TODO change this shit.
         mCrg =  -1;
-        //TODO decide value of mMcrg.
+        mMcrg = 10000;
         mMass = 5;
         mScore = 0;
-        //TODO implement starting force.
+        mForce = new Vector();
     }
 
     /**
@@ -99,17 +99,22 @@ public class Player {
         if(this.isDead()){
             try {
                 //mGame.mRoom.start();
+                mScore = 0;
             } catch (Exception e) {
                 e.printStackTrace();
             }
             mLife--;
         }
-        //mGame.mRoom.mField[(int)mPos.mX][(int)mPos.mY].multiply(1/mMass,mForce);
+        inputHandler(K);
+        mMcrg -= delta;
+        //mGame.mRoom.mField[(int)mPos.mX][(int)mPos.mY].multiply(mCrg/mMass,mForce);
         Vector accel = new Vector(); //Player's total acceleration
         mMove.add(mForce, accel);
         accel.multiply(0.7f, accel);
         mPos.add(accel.multiply(delta, accel),mPos);
+    }
 
+    public void render(int delta) {
 
     }
 

@@ -6,9 +6,11 @@ import net.utlabs.utgame.ui.UiMain;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL20;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.io.File;
 import java.lang.reflect.Field;
 
@@ -40,6 +42,18 @@ public class Game {
      * The instance of the Game started in the main method.
      */
     private static Game mGame;
+    /**
+     * Log for the Game object, located at FL_LOG.
+     */
+    public Log mLog;
+    /**
+     * Config for the Game object, located at FL_CONFIG.
+     */
+    public Config mConfig;
+    /**
+     * The current Ui menu
+     */
+    public Ui mUi;
 
     public static void main(String[] args) {
         System.setProperty("org.lwjgl.librarypath", new File(DIR, "native").getAbsolutePath());
@@ -90,18 +104,6 @@ public class Game {
     public static void showError() {
         JOptionPane.showMessageDialog(null, "An error occurred, please read the log file for more information");
     }
-    /**
-     * Log for the Game object, located at FL_LOG.
-     */
-    public Log mLog;
-    /**
-     * Config for the Game object, located at FL_CONFIG.
-     */
-    public Config mConfig;
-    /**
-     * The current Ui menu
-     */
-    public Ui mUi;
 
     /**
      * Shuts down the Game in a nice manner.

@@ -6,7 +6,9 @@ import net.utlabs.utgame.tiles.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -57,9 +59,26 @@ public class Room {
      * @param game The game that this room exists in
      * @param mapName The name of the map image that is being loaded
      */
-    public Room(Game game, String mapName){
-        mGame=game;
-        mMapName=mapName;
+    public Room(Game game, String mapName) {
+        mGame = game;
+        mMapName = mapName;
+    }
+
+    /**
+     * a method to map the JSONG data to a Metadata object
+     *
+     * @param src The file to be loaded from
+     * @return
+     * @throws Exception
+     */
+    public static Metadata loadMetadata(File src) throws Exception {
+        final Metadata meta;
+        try (FileReader reader = new FileReader(src)) {
+            meta = GSON.fromJson(reader, Metadata.class);
+        } catch (Exception e) {
+            throw new Exception("Unable to read map " + src.getAbsolutePath(), e);
+        }
+        return meta;
     }
 
     /**
