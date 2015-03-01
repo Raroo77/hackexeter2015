@@ -21,6 +21,7 @@ public class Component {
     public void render(int delta) {}
 
     public boolean keyEvent(int key, char ch, boolean down, long duration) {
+
         return false;
     }
 
