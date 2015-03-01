@@ -16,8 +16,8 @@ import java.util.HashMap;
 public class Texture {
 
     public static boolean mGenerateMipMaps = true;
-    public static int mPreferredMag = GL11.GL_NEAREST;
-    public static int mPreferredMin = GL11.GL_NEAREST;
+    public static int mPreferredMag = GL11.GL_LINEAR_MIPMAP_LINEAR;
+    public static int mPreferredMin = GL11.GL_LINEAR_MIPMAP_LINEAR;
     private static final HashMap<String, Texture> TEXTURE_BANK = new HashMap<>();
 
     public static Texture getTexture(String texture) {
