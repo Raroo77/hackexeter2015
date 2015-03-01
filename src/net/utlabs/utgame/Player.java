@@ -1,6 +1,7 @@
 package net.utlabs.utgame;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Created by raroo on 2/28/15.
@@ -37,9 +38,13 @@ public class Player {
      */
     public Vector mForce;
     /**
-     * Player's input movement (acceleration)
+     * Player's acceleration
      */
-    public Vector mMove;
+    public Vector mAccel;
+    /**
+     * Player's velocity (acceleration)
+     */
+    public Vector mVelocity;
     /**
      * Player's position
      */
@@ -55,44 +60,37 @@ public class Player {
      */
     public Player(Game game) {
         mGame = game;
-        mMove = new Vector(0, 0);
+        mVelocity = new Vector(0, 0);
         mLife = Integer.MAX_VALUE; //TODO change this shit.
         mCrg = -1;
         mMcrg = 10000;
         mMass = 5;
         mScore = 0;
         mForce = new Vector();
-        mMove = new Vector();
+        mVelocity = new Vector();
+        mAccel = new Vector();
         mPos = new Vector();
         mTextureO = Texture.getTexture("PlayerO.png");
         mTextureB = Texture.getTexture("PlayerB.png");
     }
 
-    /**
-     * @param K
-     *
-     * @return
-     */
-    public boolean inputHandler(int K) {
-        switch (K) {
-            case Keyboard.KEY_RIGHT:
-                mMove.mX += 1;
-                return true;
-            case Keyboard.KEY_LEFT:
-                mMove.mX -= 1;
-                return true;
-            case Keyboard.KEY_UP:
-                mMove.mY += 1;
-                return true;
-            case Keyboard.KEY_DOWN:
-                mMove.mY -= 1;
-                return true;
-            case Keyboard.KEY_SPACE:
-                mCrg *= -1;
-                return true;
-            default:
-                return false;
-        }
+    public boolean keyEvent(int key, char ch, boolean down, long duration) {
+        int sign = 0;
+        if (down)
+            sign = 1;
+        else
+            sign = -1;
+        if (key == Keyboard.KEY_RIGHT)
+            mForce.mX += 100 * sign;
+        if (key == Keyboard.KEY_LEFT)
+            mForce.mX -= 100 * sign;
+        if (key == Keyboard.KEY_UP)
+            mForce.mY += 100 * sign;
+        if (key == Keyboard.KEY_DOWN)
+            mForce.mY -= 100 * sign;
+        if (key == Keyboard.KEY_SPACE && down)
+            mCrg *= -1;
+        return false;
     }
 
     public boolean isDead() {
@@ -109,20 +107,14 @@ public class Player {
 
     public void update(int delta) {
         if (this.isDead()) {
-            try {
-                //mGame.mRoom.start();
-                mScore = 0;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            mScore = 0;
             mLife--;
         }
-        mMcrg -= delta;
-
-        Vector accel = new Vector(); //Player's total acceleration
-        mMove.add(mForce, accel);
-        accel.multiply(0.7f, accel);
-        mPos.add(accel.multiply(delta, accel), mPos);
+        mMcrg -= Math.copySign(delta, -mMcrg);
+        mForce.multiply(1F / mMass, mAccel);
+        mVelocity.add(mAccel.multiply(delta / 1000F, new Vector()), mVelocity);
+        mPos.add(mVelocity.multiply(delta / 1000F, new Vector()), mPos);
+        mVelocity.multiply(0.97F, mVelocity);
     }
 
     public void render(int delta) {
@@ -131,6 +123,15 @@ public class Player {
             t = mTextureB;
         else
             t = mTextureO;
-        t.drawCenteredModalRect(0, 0, t.mWidth, t.mHeight, mPos.mX, mPos.mY, 0, t.mWidth, t.mHeight);
+        GL11.glColor3f(1, 1, 1);
+        t.drawCenteredModalRect(0, 0, t.mWidth, t.mHeight, getPX(), getPY(), 0, t.mWidth / 4, t.mHeight / 4);
+    }
+
+    public int getPX() {
+        return (int) (mPos.mX * 50);
+    }
+
+    public int getPY() {
+        return (int) (mPos.mY * 50);
     }
 }

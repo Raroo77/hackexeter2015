@@ -35,7 +35,9 @@ public class UiGame extends Ui {
     public void render(int delta) {
         super.render(delta);
         GL11.glPushMatrix();
+        GL11.glTranslatef(mWidth / 2, mHeight / 2, 0);
         GL11.glScalef(mZoom, mZoom, mZoom);
+        GL11.glTranslatef(-mPlayer.getPX(), -mPlayer.getPY(), 0);
         mRoom.render(delta, mPlayer);
         mPlayer.render(delta);
         GL11.glPopMatrix();
@@ -44,5 +46,6 @@ public class UiGame extends Ui {
     @Override
     public void keyEvent(int key, char ch, boolean down, long duration) {
         super.keyEvent(key, ch, down, duration);
+        mPlayer.keyEvent(key, ch, down, duration);
     }
 }

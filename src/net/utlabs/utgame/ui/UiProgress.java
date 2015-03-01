@@ -34,7 +34,7 @@ public class UiProgress extends Ui {
         //TODO Parallelize?
         try {
             mRoom.start();
-            mGame.changeMenu(new UiGame(this, mRoom));
+            mGame.changeMenu(new UiGame(mParent, mRoom));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
