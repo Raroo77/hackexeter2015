@@ -27,10 +27,12 @@ public class UiMain extends Ui {
 
     public void init(Game game) {
         super.init(game);
-        mComponents.add(new Button(this, 0, 0, 64, 256, 64, Texture.getTexture("Exit.png")));
-        mComponents.add(new Button(this, 1, 0, 128, 256, 64, Texture.getTexture("Options.png")));
-        mComponents.add(new Button(this, 2, 0, 196, 256, 64, Texture.getTexture("Credits.png")));
-        mComponents.add(new Button(this, 3, 0, 256, 256, 64, Texture.getTexture("Play.png")));
+        mComponents.add(new Button(this, 0, 10, 64, 256, 64, Texture.getTexture("Exit.png")));
+        mComponents.add(new Button(this, 1, 10, 128, 256, 64, Texture.getTexture("Options.png")));
+        mComponents.add(new Button(this, 2, 10, 196, 256, 64, Texture.getTexture("Credits.png")));
+        Button b = new Button(this, 3, 10, 256, 256, 64, Texture.getTexture("Play.png"));
+        b.mSelected = true;
+        mComponents.add(b);
     }
 
     @Override
@@ -54,10 +56,10 @@ public class UiMain extends Ui {
         int next = 0;
         switch (key) {
             case Keyboard.KEY_UP:
-                next = -1;
+                next = 1;
                 break;
             case Keyboard.KEY_DOWN:
-                next = 1;
+                next = -1;
                 break;
         }
         if (next != 0) {

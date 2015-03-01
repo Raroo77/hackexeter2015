@@ -22,7 +22,6 @@ public class Room {
      * a method to map the JSONG data to a Metadata object
      *
      * @param src The file to be loaded from
-     *
      * @return
      * @throws Exception
      */
@@ -36,6 +35,7 @@ public class Room {
         return meta;
     }
 
+    public Metadata mMeta;
     /**
      * Game that the room exists in
      */
@@ -52,11 +52,11 @@ public class Room {
      * A string to store the name of the loaded map image
      */
     public String mMapName;
+    public boolean mStarted;
 
     /**
      * Constructs a room
-     *
-     * @param game    The game that this room exists in
+     * @param game The game that this room exists in
      * @param mapName The name of the map image that is being loaded
      */
     public Room(Game game, String mapName) {
@@ -67,16 +67,29 @@ public class Room {
     /**
      * Starts the loading of a room
      * Reads the map image and then computes the vector field
-     *
      * @throws IOException
      */
     public void start() throws Exception {
         BufferedImage im = ImageIO.read(new File(DIR_MAP, mMapName + ".png"));
-        Metadata met = loadMetadata(new File(DIR_MAP, mMapName + ".json"));
-        mMap = new long[met.mapX][met.mapY];
-        for (int i = 0; i < mMap.length; i++)
-            for (int j = 0; j < mMap[0].length; j++)
-                mMap[i][j] = getMapComponent(met.hashMap.get(Integer.toHexString(im.getRGB(i, j))));
+        if (!mStarted) {
+            mMeta = loadMetadata(new File(DIR_MAP, mMapName + ".json"));
+            mMap = new long[mMeta.mapX][mMeta.mapY];
+            for (int i = 0; i < mMap.length; i++)
+                for (int j = 0; j < mMap[0].length; j++)
+                    mMap[i][j] = getMapComponent(Long.valueOf(mMeta.hashMap.get(Integer.toHexString(im.getRGB(i, j))), 16));
+            mField = new Vector[mMap.length * 4][mMap[0].length * 4];
+            for (int i = 0; i < mMap.length; i++)
+                for (int j = 0; j < mMap[0].length; j++)
+                    if (getMapComponent(mMap[i][j]) == 0)
+                        for (int k = 0; k < mField.length; k++)
+                            for (int l = 0; l < mField[0].length; l++)
+                                mField[k][l].add(Vector.fromPolar(Math.atan2(l - (4 * j + 2), k - (4 * i + 2)), (getMapMetadata(mMap[i][j]) - 1) / (Math.pow(l - (4 * j + 2), 2) + Math.pow(k - (4 * i + 2), 2))), mField[k][l]);
+        }
+        else {
+            for (int i = 0; i < mMap.length; i++)
+                for (int j = 0; j < mMap[0].length; j++)
+                    mMap[i][j] = getMapComponent(Long.valueOf(mMeta.hashMap.get(Integer.toHexString(im.getRGB(i, j))), 16));
+        }
     }
 
     public void update(int delta, Player player) {
@@ -100,9 +113,7 @@ public class Room {
 
     /**
      * Decapsulates the long wrapper
-     *
      * @param l
-     *
      * @return
      */
     public int getMapMetadata(long l) {
@@ -126,7 +137,6 @@ public class Room {
      * A class used to interpret the JSON metadata
      */
     private static class Metadata {
-
         /**
          * The horizontal resolution of the map
          */
@@ -135,6 +145,6 @@ public class Room {
          * The vertical resolution of the map
          */
         public int mapY;
-        public Map<String, Long> hashMap;
+        public Map<String, String> hashMap;
     }
 }

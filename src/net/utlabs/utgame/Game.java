@@ -139,6 +139,7 @@ public class Game {
         Display.setTitle("Untitled Game");
         setDisplayMode(mConfig.mWidth, mConfig.mHeight, mConfig.mFullscreen);
         Display.create();
+        Mouse.setGrabbed(true);
         Keyboard.create();
         mLog.d("Setting up OpenGL");
         glViewport(0, 0, mWidth = Display.getWidth(), mHeight = Display.getHeight());
