@@ -72,7 +72,7 @@ public class Room {
      */
     public void start() throws Exception {
         BufferedImage im = ImageIO.read(new File(DIR_MAP, mMapName + ".png"));
-        Metadata met = loadMetadata(new File(DIR_MAP, mMapName + ".jsong"));
+        Metadata met = loadMetadata(new File(DIR_MAP, mMapName + ".json"));
         mMap = new long[met.mapX][met.mapY];
         for (int i = 0; i < mMap.length; i++)
             for (int j = 0; j < mMap[0].length; j++)
