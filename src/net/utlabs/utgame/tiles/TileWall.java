@@ -1,6 +1,7 @@
 package net.utlabs.utgame.tiles;
 
-import net.utlabs.utgame.Tile;
+import net.utlabs.utgame.Player;
+import net.utlabs.utgame.Room;
 
 /**
  * Created by mas.dicicco on 2/28/2015.
@@ -41,7 +42,7 @@ public class TileWall extends Tile {
      * @param room: The room the tile is in
      */
     @Override
-    public void draw(int meta, int x, int y, Room room) {
+    public void draw(int meta, int x, int y, Room room, Player player) {
         
     }
 }

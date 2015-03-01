@@ -92,6 +92,10 @@ public class Game {
      * Config for the Game object, located at FL_CONFIG
      */
     public Config mConfig;
+    /**
+     * The Current room
+     */
+    public Room mRoom;
 
     /**
      * Shuts down the Game in a nice manner
