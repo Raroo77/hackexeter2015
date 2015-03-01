@@ -5,7 +5,9 @@ import net.utlabs.utgame.Room;
 
 /**
  * Created by mas.dicicco on 2/28/2015.
+ * Planned but unused tile
  */
+@Deprecated
 public class TileTurret extends Tile {
 
     /**
@@ -29,6 +31,21 @@ public class TileTurret extends Tile {
     public void update(int meta, int x, int y, Room room, Player player, int delta) {
         //TODO AIM AT PLAYER AND FIRE
     }
+
+    public boolean collision(int x, int y, Player player){
+        if(Math.pow(x*60-30-player.mPos.mX*50,2)+Math.pow(y*60-30-player.mPos.mY*50,2)<=900
+                || Math.pow(x*60-30-player.mPos.mX*50,2)+Math.pow(y*60+30-player.mPos.mY*50,2)<=900
+                || Math.pow(x*60+30-player.mPos.mX*50,2)+Math.pow(y*60-30-player.mPos.mY*50,2)<=900
+                || Math.pow(x*60+30-player.mPos.mX*50,2)+Math.pow(y*60+30-player.mPos.mY*50,2)<=900
+                || Math.pow(x*60-player.mPos.mX*50,2)+Math.pow(y*60-30-player.mPos.mY*50,2)<=900
+                || Math.pow(x*60-player.mPos.mX*50,2)+Math.pow(y*60+30-player.mPos.mY*50,2)<=900
+                || Math.pow(x*60-30-player.mPos.mX*50,2)+Math.pow(y*60-player.mPos.mY*50,2)<=900
+                || Math.pow(x*60+30-player.mPos.mX*50,2)+Math.pow(y*60-player.mPos.mY*50,2)<=900){
+            return true;
+        }
+        else return false;
+    }
+
 
     /**
      * Draws and colors based on charge

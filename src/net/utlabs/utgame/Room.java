@@ -3,7 +3,6 @@ package net.utlabs.utgame;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.utlabs.utgame.tiles.Tile;
-import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,7 +16,6 @@ import java.util.Map;
 public class Room {
 
     public static final File DIR_MAP = new File(Game.DIR, "map");
-    public static final int VECTOR_FIELD_RESOLUTION = 4;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     /**
@@ -54,7 +52,6 @@ public class Room {
      * A string to store the name of the loaded map image
      */
     public String mMapName;
-    public Vector mSpawn;
     public boolean mStarted;
 
     /**
@@ -79,18 +76,14 @@ public class Room {
             mMap = new long[mMeta.mapX][mMeta.mapY];
             for (int i = 0; i < mMap.length; i++)
                 for (int j = 0; j < mMap[0].length; j++) {
-                    String hex = Integer.toHexString(im.getRGB(i, j) & 0xFFFFFF);
+                    String hex = Integer.toHexString(im.getRGB(i, j));
                     if (!mMeta.hashMap.containsKey(hex))
                         mMap[i][j] = -1;
-                    else {
-                        long data = Long.valueOf(mMeta.hashMap.get(hex), 16);
-                        if (data == 0x300000000L)
-                            mSpawn = new Vector(i, j);
-                        mMap[i][j] = getMapComponent(data);
-                    }
+                    else
+                        mMap[i][j] = getMapComponent(Long.valueOf(mMeta.hashMap.get(hex), 16));
                 }
 
-            mField = new Vector[mMap.length * VECTOR_FIELD_RESOLUTION][mMap[0].length * VECTOR_FIELD_RESOLUTION];
+            mField = new Vector[mMap.length * 4][mMap[0].length * 4];
             for (int i = 0; i < mField.length; i++)
                 for (int j = 0; j < mField[i].length; j++)
                     mField[i][j] = new Vector();
@@ -98,11 +91,8 @@ public class Room {
                 for (int j = 0; j < mMap[0].length; j++)
                     if (getMapComponent(mMap[i][j]) == 0)
                         for (int k = 0; k < mField.length; k++)
-                            for (int l = 0; l < mField[0].length; l++) {
-                                double theta = Math.atan2(l - (VECTOR_FIELD_RESOLUTION * j), k - (VECTOR_FIELD_RESOLUTION * i));
-                                double mag = (getMapMetadata(mMap[i][j]) - 1) / (Math.pow(l - (VECTOR_FIELD_RESOLUTION * j), 2) + Math.pow(k - (VECTOR_FIELD_RESOLUTION * i), 2));
-                                mField[k][l].add(Vector.fromPolar(theta, mag), mField[k][l]);
-                            }
+                            for (int l = 0; l < mField[0].length; l++)
+                                mField[k][l].add(Vector.fromPolar(Math.atan2(l - (4 * j + 2), k - (4 * i + 2)), (getMapMetadata(mMap[i][j]) - 1) / (Math.pow(l - (4 * j + 2), 2) + Math.pow(k - (4 * i + 2), 2))), mField[k][l]);
         }
         else {
             for (int i = 0; i < mMap.length; i++)
@@ -113,52 +103,11 @@ public class Room {
 
     public void update(int delta, Player player) {
         iter(delta, player, false);
-        player.mForce.add(mField[pixelToVectorField(player.getPX())][pixelToVectorField(player.getPY())].multiply(player.mCrg, new Vector()), player.mForce);
+        mField[(int) player.mPos.mX][(int) player.mPos.mY].multiply(player.mCrg / player.mMass, player.mForce);
     }
 
     public void render(int delta, Player player) {
         iter(delta, player, false);
-        //int l = toPixelCoord((int) mSpawn.mX);
-        //int r = toPixelCoord((int) (mSpawn.mX - 1));
-        //int b = toPixelCoord((int) mSpawn.mY);
-        //int t = toPixelCoord((int) (mSpawn.mY - 1));
-        GL11.glBegin(GL11.GL_LINE_STRIP);
-        for (int i = 0; i < mMap.length; i++)
-            for (int j = 0; j < mMap[i].length; j++) {
-                GL11.glVertex2i(toPixelCoord(i), toPixelCoord(j));
-                GL11.glVertex2i(toPixelCoord(i + 1), toPixelCoord(j));
-                GL11.glVertex2i(toPixelCoord(i), toPixelCoord(j + 1));
-                GL11.glVertex2i(toPixelCoord(i + 1), toPixelCoord(j + 1));
-            }
-
-        GL11.glEnd();
-        GL11.glBegin(GL11.GL_POINTS);
-        for (int i = 0; i < mField.length; i++)
-            for (int j = 0; j < mField[i].length; j++)
-                GL11.glVertex2i(vectorFieldToPixel(i + .5f), vectorFieldToPixel(j + 0.5f));
-        GL11.glEnd();
-        //GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
-        //GL11.glVertex2i(l, b);
-        //GL11.glVertex2i(r, b);
-        //GL11.glVertex2i(l, t);
-        //GL11.glVertex2i(r, t);
-        //GL11.glEnd();
-    }
-
-    public int toPixelCoord(float gridCoord) {
-        return (int) ((gridCoord) * 60);
-    }
-
-    public int pixelToGridCoord(int pixelCoord) {
-        return pixelCoord / 60;
-    }
-
-    public int vectorFieldToPixel(float fieldCoord) {
-        return (int) (fieldCoord / 4F * 60);
-    }
-
-    public int pixelToVectorField(int pixelCoord) {
-        return (int) (pixelCoord / 60F * VECTOR_FIELD_RESOLUTION);
     }
 
     /**

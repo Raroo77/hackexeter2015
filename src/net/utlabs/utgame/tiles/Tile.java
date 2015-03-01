@@ -47,6 +47,15 @@ public abstract class Tile {
     public abstract void update(int meta, int x, int y, Room room, Player player, int delta);
 
     /**
+     * Sorry for this implementation, collisions are hard.
+     * @param x
+     * @param y
+     * @param player
+     * @return
+     */
+    public abstract boolean collision(int x, int y,Player player);
+
+    /**
      * Draws
      *
      * @param meta: metadata for the tile
